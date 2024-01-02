@@ -380,7 +380,7 @@ def train(model, source_dataloader, target_dataloader, num_epochs=50, save_path=
 
                 # 使用混合训练策略当有足够自信的样本时
                 if confident_samples_count > 3:
-                    total_loss = 10 * swd + 2 * classification_loss + 0.5 * distillation_loss  # 调整损失函数权重
+                    total_loss = 10 * swd + 2 * classification_loss + 0.5 * distillation_loss  # 调整损失函数权重，这里的权重随机选择的
                 else:
                     total_loss = 10 * swd + 2 * classification_loss + 0.5 * distillation_loss
 
@@ -551,16 +551,7 @@ def show_random_images_with_gradcam(dataloader, model, num_images=16, save_dir='
 
 
 # model.load_state_dict(torch.load('models/best_model.pth'))
-model.to(device)
 
-train(model, source_dataloader, target_dataloader, num_epochs=500)
-evaluate(model, source_dataloader, "Source Domain")
-evaluate(model, target_dataloader, "Target Domain")
-visualize_features(model, target_dataloader)
-# Extract features
-gradcam = GradCAM(model)
-show_random_images_with_gradcam(source_dataloader, model)
-evaluate_accuracy(model, source_dataloader)
-evaluate_accuracy(model, target_dataloader)
+
 
 
